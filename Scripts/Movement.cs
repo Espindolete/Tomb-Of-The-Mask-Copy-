@@ -23,6 +23,7 @@ public class Movement : MonoBehaviour {
     int puntuacion = 2;
     // Use this for initialization
     void Start() {
+        
         rb = GetComponent<Rigidbody2D>();
     }
     private void Update()
@@ -40,7 +41,7 @@ public class Movement : MonoBehaviour {
                 canCheck = false;
                 if(Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 0.6f, espinasMask) || Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.left), 0.6f, espinasMask))
                 {
-                    Destroy(this.gameObject);
+                    this.gameObject.SetActive(false);
                 }
             }
         }
@@ -55,7 +56,7 @@ public class Movement : MonoBehaviour {
                 canCheck = false;
                 if (Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.up), 0.6f, espinasMask) || Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.down), 0.6f, espinasMask))
                 {
-                    Destroy(this.gameObject);
+                    this.gameObject.SetActive(false);
                 }
             }
         }
@@ -109,10 +110,5 @@ public class Movement : MonoBehaviour {
                 rb.velocity = Vector2.left * speed * Time.fixedDeltaTime;
                 break;
         }
-    }
-    private void OnDestroy()
-    {
-        apier.Post(nombre, puntuacion);
-        apier.Get();
     }
 }

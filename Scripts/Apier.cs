@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 public class Apier  {
 
-    private string url = "http://localhost/ejemplo/api.php/score";
+    private string url = "http://localhost/ejemploapiphp/api.php/juego";
 	// Use this for initialization
 	
 	
@@ -16,8 +16,8 @@ public class Apier  {
         var request = new UnityWebRequest(url, "POST");
         string form2 = "{";
         form2 += @"""id"":"""",";//"id":"" ,//lo hace automatico la BD
-        form2 += @"""Nombre"":""" + nombre + @""",";//"Nombre" : "{{nombre}}",
-        form2 += @"""Puntuacion"":""" + score+@""",";//"Puntuacion" : "{{score}}"
+        form2 += @"""nombre"":""" + nombre + @""",";//"Nombre" : "{{nombre}}",
+        form2 += @"""puntuacion"":""" + score+@"""";//"Puntuacion" : "{{score}}"
         form2 += "}";
         byte[] bodyRaw = Encoding.UTF8.GetBytes(form2);
         request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
@@ -25,11 +25,12 @@ public class Apier  {
         request.SetRequestHeader("Content-Type", "application/json");
         yield return request.Send();
         Debug.Log("Status Code: " + request.responseCode);
+        Debug.Log(form2);
     }
 
     public IEnumerator Get()
     {
-        using(UnityWebRequest www= UnityWebRequest.Get("http://localhost/ejemplo/api.php/score"))
+        using(UnityWebRequest www= UnityWebRequest.Get("http://localhost/ejemploapiphp/api.php/juego"))
         {
             yield return www.SendWebRequest();
             if (www.error != null)
