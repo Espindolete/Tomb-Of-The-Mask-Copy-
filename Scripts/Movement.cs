@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Direccion
-{
-    Norte, Sur, Este, Oeste
-}
+
 public class Movement : MonoBehaviour {
 
     public float speed;
@@ -18,7 +15,8 @@ public class Movement : MonoBehaviour {
     [SerializeField] public LayerMask espinasTimedMask;
     
 
-    Apier apier=new Apier();
+    Apier apier= new Apier();
+    Score score= new Score();
     string nombre = "agustin";
     int puntuacion = 2;
     // Use this for initialization
@@ -111,4 +109,8 @@ public class Movement : MonoBehaviour {
                 break;
         }
     }
+    public Score EndGame()
+    {
+        return score;
+    } 
 }

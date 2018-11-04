@@ -37,5 +37,9 @@ public class gameController : MonoBehaviour {
             plContr.enabled = true;
             ui.SetActive(false);
         }
+        if (pl.activeInHierarchy == true)
+        {
+            string puntuacion=plContr.GetComponent<string>();
+        }
     }
 }
