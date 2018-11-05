@@ -32,11 +32,7 @@ public class Apier  {
     {
         //el unityWebRequest.Post no me anda para hacer el post, tengo que hacer toda esta warangada
         var request = new UnityWebRequest(url, "POST");
-        string form2 = "{";
-        form2 += @"""id"":"""",";//"id":"" ,//lo hace automatico la BD
-        form2 += @"""nombre"":""" + xd.nombre+ @""",";//"Nombre" : "{{nombre}}",
-        form2 += @"""puntuacion"":""" + xd.score + @"""";//"Puntuacion" : "{{score}}"
-        form2 += "}";
+        string form2 = xd.MakeForm();
         byte[] bodyRaw = Encoding.UTF8.GetBytes(form2);
         request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();

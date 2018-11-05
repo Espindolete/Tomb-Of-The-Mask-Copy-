@@ -36,10 +36,12 @@ public class gameController : MonoBehaviour {
     }
     void FixedUpdate()
     {
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
-        {
-            plContr.enabled = true;
-            ui.SetActive(false);
+        if (thisRonda == true) { 
+            if (Input.GetAxisRaw("Vertical") > 0)
+            {
+                plContr.enabled = true;
+                ui.SetActive(false);
+            }
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Score  {
+﻿public class Score  {
     public int score;
     public string nombre;
 
@@ -28,5 +24,14 @@ public class Score  {
     public void SetNombre(string nombre)
     {
         this.nombre = nombre;
+    }
+    public string MakeForm()
+    {
+        string form = "{";
+        form += @"""id"":"""",";//"id":"" ,//lo hace automatico la BD
+        form += @"""nombre"":""" + this.nombre + @""",";//"Nombre" : "{{nombre}}",
+        form += @"""puntuacion"":""" + this.score + @"""";//"Puntuacion" : "{{score}}"
+        form += "}";
+        return form;
     }
 }
