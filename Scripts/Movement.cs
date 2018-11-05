@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,19 +16,21 @@ public class Movement : MonoBehaviour {
     [SerializeField] public LayerMask espinasTimedMask;
     
 
-    Apier apier= new Apier();
-    Score score= new Score();
     string nombre = "agustin";
     int puntuacion = 2;
+    
+
+    public Score score;
+    
     // Use this for initialization
     void Start() {
-        
+        score = new Score(puntuacion, nombre);
         rb = GetComponent<Rigidbody2D>();
     }
     private void Update()
     {
         Camera.main.transform.position = transform.position;
-        //rb.MovePosition(rb.position+(mov*Time.deltaTime));
+        
         if (movingHor)
         {
             if (Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right),0.6f,obstacleMask) ||Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.left),0.6f,obstacleMask))
@@ -91,6 +94,7 @@ public class Movement : MonoBehaviour {
             
         
     }
+
     private void FixedUpdate()
     {
         switch (direccion)
@@ -109,8 +113,9 @@ public class Movement : MonoBehaviour {
                 break;
         }
     }
-    public Score EndGame()
+
+    void nothing()
     {
-        return score;
-    } 
+        Debug.Log("nada");
+    }
 }

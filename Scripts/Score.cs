@@ -20,12 +20,12 @@ public class Score  {
     {
         this.nombre = nombre;
     }
-
-    public void setScore(int score)
+    
+    public void SetScore(int score)
     {
         this.score = score;
     }
-    public void setNombre(string nombre)
+    public void SetNombre(string nombre)
     {
         this.nombre = nombre;
     }

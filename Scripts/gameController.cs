@@ -5,21 +5,25 @@ using UnityEngine;
 public class gameController : MonoBehaviour {
 
     public GameObject ui;
-
+    Apier api = new Apier();
     private GameObject pl;
     Behaviour plContr;
+    Score puntuacion;
 
     bool thisRonda = false;
 	// Use this for initialization
 	void Start () {
         pl=GameObject.FindGameObjectWithTag("Player");
         plContr = pl.GetComponent<Movement>();
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if(pl.activeInHierarchy == false && thisRonda==true)
         {
+            puntuacion = pl.GetComponent<Movement>().score;
+            StartCoroutine(api.Post(puntuacion));
             thisRonda = false;
             Debug.Log("se desactivo");
         }
@@ -36,10 +40,6 @@ public class gameController : MonoBehaviour {
         {
             plContr.enabled = true;
             ui.SetActive(false);
-        }
-        if (pl.activeInHierarchy == true)
-        {
-            string puntuacion=plContr.GetComponent<string>();
         }
     }
 }
