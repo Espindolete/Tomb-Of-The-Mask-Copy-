@@ -29,7 +29,10 @@ public class Movement : MonoBehaviour {
     }
     private void Update()
     {
-        Camera.main.transform.position = transform.position;
+        Vector3 posicion = transform.position;
+        posicion.z = -10;
+        posicion.x = 2;
+        Camera.main.transform.position = posicion;
         
         if (movingHor)
         {
@@ -42,7 +45,7 @@ public class Movement : MonoBehaviour {
                 canCheck = false;
                 if(Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 0.6f, espinasMask) || Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.left), 0.6f, espinasMask))
                 {
-                    this.gameObject.SetActive(false);
+                    Perdi(transform.position.y);
                 }
             }
         }
@@ -57,7 +60,7 @@ public class Movement : MonoBehaviour {
                 canCheck = false;
                 if (Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.up), 0.6f, espinasMask) || Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.down), 0.6f, espinasMask))
                 {
-                    this.gameObject.SetActive(false);
+                    Perdi(transform.position.y);
                 }
             }
         }
@@ -114,8 +117,9 @@ public class Movement : MonoBehaviour {
         }
     }
 
-    void nothing()
+    void Perdi(float altura)
     {
-        Debug.Log("nada");
+        score.SetScore((int)altura);
+        this.gameObject.SetActive(false);
     }
 }

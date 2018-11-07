@@ -25,6 +25,7 @@
     {
         this.nombre = nombre;
     }
+
     public string MakeForm()
     {
         string form = "{";
