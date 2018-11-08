@@ -18,8 +18,6 @@ public class Movement : MonoBehaviour {
 
     string nombre = "agustin";
     int puntuacion = 2;
-    
-
     public Score score;
     
     // Use this for initialization
@@ -27,6 +25,7 @@ public class Movement : MonoBehaviour {
         score = new Score(puntuacion, nombre);
         rb = GetComponent<Rigidbody2D>();
     }
+
     private void Update()
     {
         Vector3 posicion = transform.position;
@@ -36,32 +35,27 @@ public class Movement : MonoBehaviour {
         
         if (movingHor)
         {
-            if (Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right),0.6f,obstacleMask) ||Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.left),0.6f,obstacleMask))
+            switch (direccion)
             {
-                canCheck = true;
-            }
-            else
-            {
-                canCheck = false;
-                if(Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 0.6f, espinasMask) || Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.left), 0.6f, espinasMask))
-                {
-                    Perdi(transform.position.y);
-                }
-            }
+                case Direccion.Oeste:
+                    CheckAtDir(Vector2.left);
+                    break;
+                case Direccion.Este:
+                    CheckAtDir(Vector2.right);
+                    break;
+        }
         }
         else
         {
-            if (Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.up), 0.6f, obstacleMask) || Physics2D.Raycast(transform.position, transform.TransformDirection( Vector2.down), 0.6f, obstacleMask))
+
+            switch (direccion)
             {
-                canCheck = true;
-            }
-            else
-            {
-                canCheck = false;
-                if (Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.up), 0.6f, espinasMask) || Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.down), 0.6f, espinasMask))
-                {
-                    Perdi(transform.position.y);
-                }
+                case Direccion.Norte:
+                    CheckAtDir(Vector2.up);
+                    break;
+                case Direccion.Sur:
+                    CheckAtDir(Vector2.down);
+                    break;
             }
         }
 
@@ -121,5 +115,24 @@ public class Movement : MonoBehaviour {
     {
         score.SetScore((int)altura);
         this.gameObject.SetActive(false);
+    }
+
+
+
+
+    void CheckAtDir( Vector2 dir)
+    {
+        if (Physics2D.Raycast(transform.position, transform.TransformDirection(dir), 0.6f, obstacleMask) )
+        {
+            canCheck = true;
+        }
+        else
+        {
+            canCheck = false;
+            if (Physics2D.Raycast(transform.position, transform.TransformDirection(dir), 0.6f, espinasMask)) 
+            {
+                Perdi(transform.position.y);
+            }
+        }
     }
 }

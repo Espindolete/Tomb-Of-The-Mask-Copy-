@@ -24,30 +24,27 @@ public class gameController : MonoBehaviour {
     void Start () {
         pl=GameObject.FindGameObjectWithTag("Player");
         plContr = pl.GetComponent<Movement>();
-        StartCoroutine(api.Get());
-        
+        StartCoroutine(api.Get());        
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
-        if (pl.activeInHierarchy == false && thisRonda==true)
+        if (pl.activeInHierarchy == false && thisRonda == true)
         {
             puntuacion = pl.GetComponent<Movement>().score;
             StartCoroutine(api.Post(puntuacion));
             thisRonda = false;
             Resetting();
         }
-        else if(pl.activeInHierarchy == true && thisRonda == false)
-        {
+        else if (pl.activeInHierarchy == true && thisRonda == false)
+        { //tengo q hacer cuando se resetea tambien
             thisRonda = true;
             Debug.Log("Inició otra partida");
         }
-
         CheckPos();
     }
     void FixedUpdate()
     {
-        if (nuevoJuego) {  
+        if (nuevoJuego) {
             if (Input.GetAxisRaw("Vertical") > 0)
             {
                 plContr.enabled = true;
@@ -67,7 +64,6 @@ public class gameController : MonoBehaviour {
         {
             lastCheck += 27;
             GameObject nuevoGrid = Instantiate(grids[Random.Range(0, grids.Length)], new Vector3(-0.5f, lastCheck, 0),Quaternion.identity);
-            
             thisGame.Enqueue(nuevoGrid);
             Debug.Log(thisGame.Count);
             if (thisGame.Count>3)
@@ -77,12 +73,20 @@ public class gameController : MonoBehaviour {
 
         }
     }
+
     private void Resetting()
     {
-        lastCheck = 0;
-        pl.transform.position = Vector3.zero;
-        uiPerdiste.SetActive(true);
+        lastCheck = 27;
+        plContr.enabled = false;
+        Vector3 nuevo = Vector3.zero;
+        nuevo.x = 2;
+        pl.transform.position = nuevo;
         
+        uiPerdiste.SetActive(true);
+        while (thisGame.Count !=0)
+        {
+            Destroy(thisGame.Dequeue());
+        }
         nuevoJuego = true;
     }
 }

@@ -57,4 +57,20 @@ public class Apier  {
             }
         }
     }
+
+    public IEnumerator Get(int xd)
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get(url+"/"+xd))
+        {
+            yield return www.SendWebRequest();
+            if (www.error != null)
+            {
+                Debug.Log(www.responseCode);
+            }
+            else
+            {
+                Debug.Log(www.downloadHandler.text);
+            }
+        }
+    }
 }
