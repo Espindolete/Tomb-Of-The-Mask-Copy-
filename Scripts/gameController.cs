@@ -40,7 +40,12 @@ public class gameController : MonoBehaviour {
             thisRonda = true;
             Debug.Log("Inició otra partida");
         }
-        CheckPos();
+
+        if (plContr.isActiveAndEnabled)
+        {
+            CheckPos();
+        }
+        
     }
     void FixedUpdate()
     {
