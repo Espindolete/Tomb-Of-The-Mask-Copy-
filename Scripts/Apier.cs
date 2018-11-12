@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 public class Apier  {
 
-    private string url = "http://localhost/ejemploapiphp/api.php/juego";
+    private string url = "http://localhost/ejemploapiphp/api.php/score";
 	// Use this for initialization
 	
 	
