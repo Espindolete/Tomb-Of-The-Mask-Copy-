@@ -8,21 +8,22 @@ public class gameController : MonoBehaviour {
     public GameObject ui;
     public GameObject uiPerdiste;
     public bool nuevoJuego = false;//publico por si lo quiero controlar con otro script
+    public bool inputeado = true;
+
+    public GameObject inputField;
+    public Score puntuacion;
 
     private Apier api = new Apier();
     private GameObject pl;
     private Behaviour plContr;
-    private Score puntuacion;
     private int lastCheck=0;
     private bool thisRonda = false;
     
-    private InputField inputField;
 
     Queue<GameObject> thisGame= new Queue<GameObject>();
     
     void Start () {
-
-        inputField = GameObject.FindObjectOfType<InputField>();
+        inputField = GameObject.FindGameObjectWithTag("Respawn");
         pl=GameObject.FindGameObjectWithTag("Player");
         plContr = pl.GetComponent<Movement>();
         StartCoroutine(api.Get());        
@@ -31,7 +32,7 @@ public class gameController : MonoBehaviour {
 	void Update () {
         if (pl.activeInHierarchy == false && thisRonda == true)
         {
-            puntuacion = pl.GetComponent<Movement>().score;
+            puntuacion.SetScore(  pl.GetComponent<Movement>().puntuacion);
             StartCoroutine(api.Post(puntuacion));
             thisRonda = false;
             Resetting();
@@ -41,30 +42,26 @@ public class gameController : MonoBehaviour {
             thisRonda = true;
             Debug.Log("Inició otra partida");
         }
-
         if (plContr.isActiveAndEnabled)
         {
             CheckPos();
         }
-        
     }
-    void FixedUpdate()
+
+    void LateUpdate()
     {
-        if (!nuevoJuego) {
+        if(inputeado)
+        if (!nuevoJuego ) {
             if (Input.GetAxisRaw("Vertical") > 0)
             {
-                plContr.enabled = true;
+
+                    plContr.enabled = true;
                 thisGame = new Queue<GameObject>();
                 uiPerdiste.SetActive(false);
                 ui.SetActive(false);
                 nuevoJuego = true;
             }
         }
-        else
-        {
-
-        }
-
     }
 
     private void CheckPos()
@@ -79,7 +76,6 @@ public class gameController : MonoBehaviour {
             {
                 Destroy(thisGame.Dequeue());
             }
-
         }
     }
 
@@ -90,12 +86,17 @@ public class gameController : MonoBehaviour {
         Vector3 nuevo = Vector3.zero;
         nuevo.x = 2;
         pl.transform.position = nuevo;
-        
         uiPerdiste.SetActive(true);
-        while (thisGame.Count !=0)
+        while (thisGame.Count>0)
         {
             Destroy(thisGame.Dequeue());
         }
         nuevoJuego = false;
+        DeployInput();
+    }
+    private void DeployInput()
+    {
+        inputeado = false;
+        inputField.gameObject.SetActive(true);
     }
 }

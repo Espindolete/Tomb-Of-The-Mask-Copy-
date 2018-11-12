@@ -13,15 +13,14 @@ public class Movement : MonoBehaviour {
     [SerializeField] public LayerMask obstacleMask;
     [SerializeField] public LayerMask espinasMask;
     [SerializeField] public LayerMask espinasTimedMask;
-    
 
-    string nombre = "agustin";
-    int puntuacion = 2;
-    public Score score;
+    
+    public int puntuacion = 2;
+    
     
     // Use this for initialization
     void Start() {
-        score = new Score(puntuacion, nombre);
+        
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -112,7 +111,7 @@ public class Movement : MonoBehaviour {
 
     void Perdi(float altura)
     {
-        score.SetScore((int)altura);
+        puntuacion=(int)altura;
         this.gameObject.SetActive(false);
     }
 
