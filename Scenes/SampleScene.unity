@@ -683,7 +683,7 @@ MonoBehaviour:
   uiPerdiste: {fileID: 537276480}
   nuevoJuego: 0
   inputeado: 1
-  inputField: {fileID: 0}
+  name: 
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -770,7 +770,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 36.25}
   m_SizeDelta: {x: 450, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &537276482
@@ -977,7 +977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62f84e5d017837144bf4adbddd8ad36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gc: {fileID: 519420028}
+  go: {fileID: 519420028}
   txt: {fileID: 12201414}
 --- !u!1001 &1024621202
 Prefab:

@@ -45,7 +45,6 @@ public class Movement : MonoBehaviour {
         }
         else
         {
-
             switch (direccion)
             {
                 case Direccion.Norte:
@@ -86,8 +85,6 @@ public class Movement : MonoBehaviour {
                 }
             }
         }
-            
-        
     }
 
     private void FixedUpdate()

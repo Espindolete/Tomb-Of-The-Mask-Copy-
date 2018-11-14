@@ -8,17 +8,15 @@ public class gameController : MonoBehaviour {
     public GameObject ui;
     public GameObject uiPerdiste;
     public bool nuevoJuego = false;//publico por si lo quiero controlar con otro script
-    public bool inputeado = true;
-
-    public GameObject inputField;
+    public bool inputeado = false;
+    public string name;
     public Score puntuacion;
-
     private Apier api = new Apier();
+    private GameObject inputField;
     private GameObject pl;
     private Behaviour plContr;
-    private int lastCheck=0;
+    private int lastCheck=-1;
     private bool thisRonda = false;
-    
 
     Queue<GameObject> thisGame= new Queue<GameObject>();
     
@@ -26,13 +24,15 @@ public class gameController : MonoBehaviour {
         inputField = GameObject.FindGameObjectWithTag("Respawn");
         pl=GameObject.FindGameObjectWithTag("Player");
         plContr = pl.GetComponent<Movement>();
-        StartCoroutine(api.Get());        
-	}
+        StartCoroutine(api.Get());
+        inputeado = false;
+        nuevoJuego = false;
+    }
 
 	void Update () {
         if (pl.activeInHierarchy == false && thisRonda == true)
         {
-            puntuacion.SetScore(  pl.GetComponent<Movement>().puntuacion);
+            puntuacion= new Score(pl.GetComponent<Movement>().puntuacion,name);
             StartCoroutine(api.Post(puntuacion));
             thisRonda = false;
             Resetting();
@@ -50,16 +50,21 @@ public class gameController : MonoBehaviour {
 
     void LateUpdate()
     {
-        if(inputeado)
-        if (!nuevoJuego ) {
-            if (Input.GetAxisRaw("Vertical") > 0)
-            {
+        if (inputeado) {
+            Debug.Log(inputeado);
+            if (!nuevoJuego ) {
 
+                ui.SetActive(true);
+                if (Input.GetAxisRaw("Vertical") > 0)
+                {
+                    pl.SetActive(true);
                     plContr.enabled = true;
-                thisGame = new Queue<GameObject>();
-                uiPerdiste.SetActive(false);
-                ui.SetActive(false);
-                nuevoJuego = true;
+                    thisGame = new Queue<GameObject>();
+                    uiPerdiste.SetActive(false);
+                    ui.SetActive(false);
+                    nuevoJuego = true;
+                    inputeado = false;
+                }
             }
         }
     }
@@ -71,7 +76,6 @@ public class gameController : MonoBehaviour {
             lastCheck += 27;//esto tengo q cmbiar a algo distinto tipo 36+alturadelgrid*cantidaddegridsusados
             GameObject nuevoGrid = Instantiate(grids[Random.Range(0, grids.Length)], new Vector3(-0.5f, lastCheck, 0),Quaternion.identity);
             thisGame.Enqueue(nuevoGrid);
-            Debug.Log(thisGame.Count);
             if (thisGame.Count>3)
             {
                 Destroy(thisGame.Dequeue());
@@ -81,7 +85,7 @@ public class gameController : MonoBehaviour {
 
     private void Resetting()
     {
-        lastCheck = 27;
+        lastCheck = -1;
         plContr.enabled = false;
         Vector3 nuevo = Vector3.zero;
         nuevo.x = 2;
@@ -94,9 +98,11 @@ public class gameController : MonoBehaviour {
         nuevoJuego = false;
         DeployInput();
     }
+
     private void DeployInput()
     {
         inputeado = false;
         inputField.gameObject.SetActive(true);
+        
     }
 }

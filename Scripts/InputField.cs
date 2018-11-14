@@ -4,19 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class InputField : MonoBehaviour {
-    public GameObject gc;
+    public GameObject go;
     public Text txt;
-    gameController xd;
+
     private void Start()
     {
-        xd=gc.GetComponent<gameController>();
     }
 
     private void Update()
     {
-        Debug.Log(xd.gameObject.name);
-        if (Input.GetKey(KeyCode.Return)){ 
-            xd.puntuacion.SetNombre(txt.text);
+        
+        if (Input.GetKey(KeyCode.Return)){
+            go.GetComponent<gameController>().name = txt.text;
+            gameController gcc=go.GetComponent<gameController>();
+            gcc.name = txt.text;
+            gcc.inputeado = true;
             this.gameObject.SetActive(false);
         }
     }
