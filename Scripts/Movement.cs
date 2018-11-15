@@ -130,4 +130,11 @@ public class Movement : MonoBehaviour {
             }
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name=="Wall of Death")
+        {
+            Perdi(transform.position.y);
+        }
+    }
 }
