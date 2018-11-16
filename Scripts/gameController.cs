@@ -69,9 +69,9 @@ public class gameController : MonoBehaviour {
                     inputeado = false;
                     Vector3 xd = Vector2.zero;
                     xd.y = -12;
-                    xd.x = 2;
+                    xd.x = 3;
                     WOD.transform.position=xd;
-                    WallOfDeath.velocity = Vector2.up * (pl.GetComponent<Movement>().speed / 3) * Time.fixedDeltaTime;
+                    WallOfDeath.velocity = Vector2.up * (pl.GetComponent<Movement>().speed / 4) * Time.fixedDeltaTime;
                 }
             }
         }
@@ -96,7 +96,7 @@ public class gameController : MonoBehaviour {
         lastCheck = -1;
         plContr.enabled = false;
         Vector3 nuevo = Vector3.zero;
-        nuevo.x = 2;
+        nuevo.x = 3;
         pl.transform.position = nuevo;
         uiPerdiste.SetActive(true);
         nuevoJuego = false;

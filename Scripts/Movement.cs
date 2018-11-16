@@ -26,15 +26,20 @@ public class Movement : MonoBehaviour {
     void Start() {
         WallOfDeath = WOD.GetComponent<Rigidbody2D>();
         rb = GetComponent<Rigidbody2D>();
-        WallOfDeath.velocity = Vector2.up * (speed / 3) * Time.fixedDeltaTime;
+        WallOfDeath.velocity = Vector2.up * (speed / 15) * Time.fixedDeltaTime;
     }
     
     private void Update()
     {
-        uiPuntuacion.GetComponent<Text>().text = "Puntuacion: \n " + (int)transform.position.y;
+        if ((int)transform.position.y > puntuacion)
+        {
+            puntuacion = (int)transform.position.y;
+        }
+        uiPuntuacion.GetComponent<Text>().text = "Puntuacion: \n " + puntuacion;
         Vector3 posicion = transform.position;
         posicion.z = -10;
-        posicion.x = 2;
+        posicion.x = 3;
+        posicion.y += 2;
         Camera.main.transform.position = posicion;
         if (movingHor)
         {
@@ -114,7 +119,8 @@ public class Movement : MonoBehaviour {
 
     void Perdi(float altura)
     {
-        puntuacion=(int)altura;
+        WallOfDeath.velocity = Vector2.zero;
+        puntuacion =(int)altura;
         this.gameObject.SetActive(false);
     }
 
@@ -140,7 +146,6 @@ public class Movement : MonoBehaviour {
     {
         if (collision.gameObject.name=="Wall of Death")
         {
-            WallOfDeath.velocity = Vector2.zero;
             Perdi(transform.position.y);
         }
     }
