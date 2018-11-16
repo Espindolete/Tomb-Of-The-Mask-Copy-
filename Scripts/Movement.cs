@@ -2,35 +2,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Movement : MonoBehaviour {
 
     public float speed;
-    Rigidbody2D rb;
+    
     Direccion direccion;
 
     [SerializeField] bool movingHor,canCheck;
     [SerializeField] public LayerMask obstacleMask;
     [SerializeField] public LayerMask espinasMask;
     [SerializeField] public LayerMask espinasTimedMask;
+    public GameObject WOD;
 
-    
+    public GameObject uiPuntuacion;
+
     public int puntuacion = 2;
-    
-    
+
+    Rigidbody2D rb;
+    Rigidbody2D WallOfDeath;
     // Use this for initialization
     void Start() {
-        
+        WallOfDeath = WOD.GetComponent<Rigidbody2D>();
         rb = GetComponent<Rigidbody2D>();
+        WallOfDeath.velocity = Vector2.up * (speed / 3) * Time.fixedDeltaTime;
     }
-
+    
     private void Update()
     {
+        uiPuntuacion.GetComponent<Text>().text = "Puntuacion: \n " + (int)transform.position.y;
         Vector3 posicion = transform.position;
         posicion.z = -10;
         posicion.x = 2;
         Camera.main.transform.position = posicion;
-        
         if (movingHor)
         {
             switch (direccion)
@@ -104,6 +109,7 @@ public class Movement : MonoBehaviour {
                 rb.velocity = Vector2.left * speed * Time.fixedDeltaTime;
                 break;
         }
+
     }
 
     void Perdi(float altura)
@@ -134,6 +140,7 @@ public class Movement : MonoBehaviour {
     {
         if (collision.gameObject.name=="Wall of Death")
         {
+            WallOfDeath.velocity = Vector2.zero;
             Perdi(transform.position.y);
         }
     }

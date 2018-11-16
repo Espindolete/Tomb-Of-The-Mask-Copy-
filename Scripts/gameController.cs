@@ -1,19 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class gameController : MonoBehaviour {
-    public GameObject[] grids;  
-    public GameObject ui;
-    public GameObject uiPerdiste;
+    public GameObject[] grids;
+    public GameObject ui, uiPerdiste,WOD;
     public bool nuevoJuego = false;//publico por si lo quiero controlar con otro script
     public bool inputeado = false;
     public string name;
     public Score puntuacion;
     private Apier api = new Apier();
-    private GameObject inputField;
-    private GameObject pl;
+    private GameObject inputField, pl;
+    private Rigidbody2D WallOfDeath;
     private Behaviour plContr;
     private int lastCheck=-1;
     private bool thisRonda = false;
@@ -21,6 +19,7 @@ public class gameController : MonoBehaviour {
     Queue<GameObject> thisGame= new Queue<GameObject>();
     
     void Start () {
+        WallOfDeath = WOD.GetComponent<Rigidbody2D>();
         inputField = GameObject.FindGameObjectWithTag("Respawn");
         pl=GameObject.FindGameObjectWithTag("Player");
         plContr = pl.GetComponent<Movement>();
@@ -57,6 +56,10 @@ public class gameController : MonoBehaviour {
                 ui.SetActive(true);
                 if (Input.GetAxisRaw("Vertical") > 0)
                 {
+                    while (thisGame.Count > 0)
+                    {
+                        Destroy(thisGame.Dequeue());
+                    }
                     pl.SetActive(true);
                     plContr.enabled = true;
                     thisGame = new Queue<GameObject>();
@@ -64,6 +67,11 @@ public class gameController : MonoBehaviour {
                     ui.SetActive(false);
                     nuevoJuego = true;
                     inputeado = false;
+                    Vector3 xd = Vector2.zero;
+                    xd.y = -12;
+                    xd.x = 2;
+                    WOD.transform.position=xd;
+                    WallOfDeath.velocity = Vector2.up * (pl.GetComponent<Movement>().speed / 3) * Time.fixedDeltaTime;
                 }
             }
         }
@@ -91,10 +99,6 @@ public class gameController : MonoBehaviour {
         nuevo.x = 2;
         pl.transform.position = nuevo;
         uiPerdiste.SetActive(true);
-        while (thisGame.Count>0)
-        {
-            Destroy(thisGame.Dequeue());
-        }
         nuevoJuego = false;
         DeployInput();
     }
